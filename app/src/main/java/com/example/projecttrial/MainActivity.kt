@@ -3,6 +3,8 @@ package com.example.projecttrial
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +23,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -44,6 +49,7 @@ fun CourseExplorerApp() {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "home") {
+        composable("home") { HomeScreen(navController) }
         composable("category") { CategoryScreen(navController) }
         composable("general") { GeneralCoursesScreen(navController) }
         composable("gems") { HiddenGemsScreen(navController) }
@@ -55,12 +61,33 @@ fun CourseExplorerApp() {
 @Composable
 fun CategoryScreen(navController: NavHostController) {
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Course Explorer") }
-            )
-        }
+            topBar = {
+                TopAppBar(
+                    title = {
+                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "Category Picker",
+                            fontSize = 26.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+                )
+            }
     ) { paddingValues ->
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.picker),
+                contentDescription = "Background Image",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+
+        }
         Column(
             modifier = Modifier
                 .padding(paddingValues)

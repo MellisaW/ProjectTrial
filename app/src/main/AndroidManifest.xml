@@ -12,20 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectTrial"
         tools:targetApi="31">
-        <activity android:name=".HomeScreen"
-            android:theme="@style/Theme.HomeScreenTheme"
+        <activity android:name=".MainActivity"
+            android:theme="@style/Theme.ProjectTrial"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:label= "Degree Finder"
-            android:theme="@style/Theme.ProjectTrial">
         </activity>
 
     </application>

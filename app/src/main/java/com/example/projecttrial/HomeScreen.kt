@@ -1,110 +1,96 @@
 package com.example.projecttrial
 
-import android.annotation.SuppressLint
-import android.content.Intent
-import android.graphics.*
-import android.os.Bundle
-import android.view.Gravity
-import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.toColorInt
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import androidx.navigation.compose.rememberNavController
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController // Import NavHostController
 
-class HomeScreen : AppCompatActivity() {
-    @SuppressLint("UseCompatLoadingForDrawables")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+@Composable
+fun HomeScreen(navController: NavHostController) {
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.background),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
 
-        // Create the root layout with a background image
-        val rootLayout = FrameLayout(this).apply {
-            layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-            //background = getDrawable(R.drawable.background)
-        }
+        // Content layout
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 40.dp, vertical = 80.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
 
-        // Create a vertical layout for content
-        val contentLayout = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
-            setPadding(40, 80, 40, 40)
-            layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-        }
+            Text(
+                text = stringResource(id = R.string.app_title),
+                fontSize = 40.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF4A148C), // Dark purple
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 80.dp)
+            )
 
-        // Title
-        val titleText = TextView(this).apply {
-            text = getString(R.string.app_title)
-            textSize = 40f
-            setTypeface(null, Typeface.BOLD)
-            setTextColor("#4A148C".toColorInt()) // Dark purple
-            gravity = Gravity.CENTER
-            setPadding(0, 0, 0, 80)
-        }
+            Spacer(modifier = Modifier.weight(1f))
 
-        // Spacer to push message to middle
-        val topSpacer = Space(this).apply {
-            layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, 0, 1f)
-        }
+            Text(
+                text = stringResource(id = R.string.welcome_message),
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(30.dp)
+                    .background(
+                        color = Color(0x66000000),
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                    .shadow(
+                        elevation = 4.dp,
+                        ambientColor = Color.Black,
+                        spotColor = Color.Black
+                    )
+            )
 
-        // Welcome message
-        val welcomeText = TextView(this).apply {
-            text = getString(R.string.welcome_message)
-            textSize = 28f
-            setTypeface(null, Typeface.BOLD)
-            setTextColor(Color.WHITE)
-            gravity = Gravity.CENTER
-            setPadding(30, 30, 30, 30)
-            setBackgroundColor("#66000000".toColorInt())
-            setShadowLayer(4f, 2f, 2f, Color.BLACK)
-        }
+            //Bottom Spacer with weight
+            Spacer(modifier = Modifier.weight(1.5f))
 
-
-        // Spacer to push button lower
-        val bottomSpacer = Space(this).apply {
-            layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, 0, 1.5f)
-        }
-
-        // Button
-        val exploreButton = Button(this).apply {
-            text = getString(R.string.explore_button)
-            setTextColor(Color.WHITE)
-            textSize = 18f
-            setPadding(50, 20, 50, 20)
-            background = getRoundedButtonDrawable("#3F51B5".toColorInt())
-            layoutParams = LinearLayout.LayoutParams(
-                MATCH_PARENT,
-                WRAP_CONTENT
-            ).apply {
-                setMargins(0, 20, 0, 0)
+            // Button
+            Button(
+                onClick = { navController.navigate("category") }, // Navigate to CategoryScreen on click
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3F51B5)),
+                shape = RoundedCornerShape(50.dp), // Rounded button
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp, bottom = 0.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.explore_button),
+                    color = Color.White,
+                    fontSize = 22.sp,
+                    modifier = Modifier.padding(horizontal = 30.dp, vertical = 10.dp)
+                )
             }
         }
-
-        // Add views in order
-        contentLayout.addView(titleText)
-        contentLayout.addView(topSpacer)
-        contentLayout.addView(welcomeText)
-        contentLayout.addView(bottomSpacer)
-        contentLayout.addView(exploreButton)
-
-        rootLayout.addView(contentLayout)
-        setContentView(rootLayout)
-
-        // Button click
-        exploreButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-    }
-
-    // Helper to create a rounded background for the button
-    private fun getRoundedButtonDrawable(color: Int): android.graphics.drawable.Drawable {
-        val radius = 50f
-        val shape = android.graphics.drawable.GradientDrawable().apply {
-            shape = android.graphics.drawable.GradientDrawable.RECTANGLE
-            cornerRadius = radius
-            setColor(color)
-        }
-        return shape
     }
 }

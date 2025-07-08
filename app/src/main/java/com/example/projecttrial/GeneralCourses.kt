@@ -1,7 +1,9 @@
 package com.example.projecttrial
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -29,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 
 
@@ -36,7 +41,6 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun GeneralCoursesScreen(navController: NavHostController) {
     val snackbarHostState = remember { SnackbarHostState() }
-    val backgroundColor = Color(0xFFE8F0FE)
 
     Scaffold(
         topBar = {
@@ -53,34 +57,50 @@ fun GeneralCoursesScreen(navController: NavHostController) {
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { padding ->
-        Column(
+
+        Box(
             modifier = Modifier
                 .padding(padding)
-                .padding(16.dp)
                 .fillMaxSize()
-                .background(backgroundColor)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.Top
         ) {
-            CourseCategory(
-                title = "STEM",
-                courses = listOf("Physics", "Chemistry", "Biology"),
-                snackbarHostState = snackbarHostState
+            Image(
+                painter = painterResource(id = R.drawable.general), // <- your image here
+                contentDescription = "Background",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
             )
-            Spacer(modifier = Modifier.height(16.dp))
 
-            CourseCategory(
-                title = "IT",
-                courses = listOf("Programming", "Networks", "Cybersecurity"),
-                snackbarHostState = snackbarHostState
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+        }
+            LazyColumn(
+                modifier = Modifier
+                    .padding(padding)
+                    .padding(16.dp)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Top
+            ) {
+                item {
+                    CourseCategory(
+                        title = "STEM",
+                        courses = listOf("Physics", "Chemistry", "Biology"),
+                        snackbarHostState = snackbarHostState
+                    )
+                }
 
-            CourseCategory(
-                title = "HUMANITIES",
-                courses = listOf("History", "Philosophy", "Languages"),
-                snackbarHostState = snackbarHostState
-            )
+                item {
+                    CourseCategory(
+                        title = "IT",
+                        courses = listOf("Programming", "Networks", "Cybersecurity"),
+                        snackbarHostState = snackbarHostState
+                    )
+                }
+
+                item {
+                    CourseCategory(
+                        title = "HUMANITIES",
+                        courses = listOf("History", "Philosophy", "Languages"),
+                        snackbarHostState = snackbarHostState
+                    )
+                }
+            }
         }
     }
-}
