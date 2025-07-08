@@ -1,5 +1,6 @@
 package com.example.projecttrial
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,14 +30,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
+import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HiddenGemsScreen(navController: NavHostController) {
     val snackbarHostState = remember { SnackbarHostState() }
+    val backgroundColor = Color(0xFFE8F0FE)
 
     Scaffold(
         topBar = {
@@ -59,6 +64,7 @@ fun HiddenGemsScreen(navController: NavHostController) {
                 .padding(padding)
                 .padding(16.dp)
                 .fillMaxSize()
+                .background(backgroundColor)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Top
         ) {
@@ -66,7 +72,6 @@ fun HiddenGemsScreen(navController: NavHostController) {
                 "Astrobiology" to "Ever thought of mixing space with life science?",
                 "Ethnomusicology" to "Study how culture influences music around the world.",
                 "Science Journalism" to "Turn lab discoveries into engaging stories.",
-                "Adventure Tourism" to "Blend travel with sustainable tourism design.",
                 "Game Narrative Design" to "Create the story behind gameplay.",
                 "Digital Anthropology" to "Explore humans in online spaces.",
             ).forEach { (title, note) ->
@@ -93,7 +98,9 @@ fun HiddenGemCourse(title: String, note: String, snackbarHostState: SnackbarHost
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
+                    fontSize = 23.sp,
+                    fontWeight = FontWeight.Bold
                 )
                 IconButton(onClick = {
                     SelectedCourses.addCourse(title)
@@ -111,7 +118,8 @@ fun HiddenGemCourse(title: String, note: String, snackbarHostState: SnackbarHost
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = note,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                fontSize = 21.sp
             )
         }
     }

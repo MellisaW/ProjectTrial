@@ -1,5 +1,7 @@
 package com.example.projecttrial
 
+import ads_mobile_sdk.p1
+import ads_mobile_sdk.p3
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
@@ -14,13 +16,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.unit.sp
+import com.example.projecttrial.CourseDetails
+import com.example.projecttrial.CourseInfo
 
 
 @Composable
 fun CourseExpandableCard(course: String) {
     // state that remembers if THIS card is expanded
     var expanded by remember { mutableStateOf(false) }
-    val (p1, p2, p3) = CourseInfo.detailsFor(course)
+    val details = Info.getDetails(course)
     val uriHandler = LocalUriHandler.current
 
     Card(
@@ -30,13 +35,13 @@ fun CourseExpandableCard(course: String) {
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(Modifier.padding(16.dp)) {
-            /* ── row: title + drop‑down arrow ───────────────────────── */
+            /* row: title + drop‑down arrow  */
             Row(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(course, style = MaterialTheme.typography.titleMedium)
+                Text(course, style = MaterialTheme.typography.titleMedium, fontSize = 23.sp)
                 IconButton(onClick = { expanded = !expanded }) {
                     Icon(
                         imageVector = if (expanded) Icons.Default.KeyboardArrowUp
@@ -46,14 +51,14 @@ fun CourseExpandableCard(course: String) {
                 }
             }
 
-            /* ── collasible info ────────────────────────────────────── */
-            AnimatedVisibility(expanded) {
+            /* collapsible info */
+            AnimatedVisibility(visible = expanded) {
                 Column {
-                    Text(p1, style = MaterialTheme.typography.bodyMedium)
+                    Text(details.paragraph1, style = MaterialTheme.typography.bodyMedium, fontSize = 22.sp)
                     Spacer(Modifier.height(4.dp))
-                    Text(p2, style = MaterialTheme.typography.bodyMedium)
+                    Text(details.paragraph2, style = MaterialTheme.typography.bodyMedium, fontSize = 22.sp)
                     Spacer(Modifier.height(4.dp))
-                    Text(p3, style = MaterialTheme.typography.bodyMedium)
+                    Text(details.paragraph3, style = MaterialTheme.typography.bodyMedium, fontSize = 22.sp)
 
                     Spacer(Modifier.height(8.dp))
                     Text(
@@ -63,7 +68,7 @@ fun CourseExpandableCard(course: String) {
                             textDecoration = TextDecoration.Underline
                         ),
                         modifier = Modifier.clickable {
-                            uriHandler.openUri("https://www.google.com/search?q=$course degree")
+                            uriHandler.openUri(details.url)
                         }
                     )
                 }

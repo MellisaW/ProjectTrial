@@ -21,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
@@ -43,7 +44,7 @@ fun CourseExplorerApp() {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "home") {
-        composable("home") { HomeScreen(navController) }
+        composable("category") { CategoryScreen(navController) }
         composable("general") { GeneralCoursesScreen(navController) }
         composable("gems") { HiddenGemsScreen(navController) }
         composable("selected") { SelectedCoursesScreen(navController) }
@@ -52,7 +53,7 @@ fun CourseExplorerApp() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun CategoryScreen(navController: NavHostController) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -76,7 +77,7 @@ fun HomeScreen(navController: NavHostController) {
             ) {
                 Text(
                     text = "General Courses",
-                    fontSize = 20.sp,
+                    fontSize = 24.sp,
                     maxLines = 1
                 )
             }
@@ -89,7 +90,7 @@ fun HomeScreen(navController: NavHostController) {
             ) {
                 Text(
                     text = "Hidden Gems",
-                    fontSize = 20.sp,
+                    fontSize = 24.sp,
                     maxLines = 1
                     )
             }
@@ -100,7 +101,10 @@ fun HomeScreen(navController: NavHostController) {
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
             ) {
-                Text("Selected Courses")
+                Text(
+                    text = "Selected Courses",
+                    fontSize = 24.sp
+                    )
             }
         }
     }
@@ -113,6 +117,8 @@ fun CourseCategory(title: String, courses: List<String>, snackbarHostState: Snac
     Text(
         text = title,
         style = MaterialTheme.typography.titleMedium,
+        fontSize = 24.sp,
+        fontWeight = FontWeight.Bold,
         modifier = Modifier.padding(bottom = 8.dp)
     )
 
@@ -126,7 +132,8 @@ fun CourseCategory(title: String, courses: List<String>, snackbarHostState: Snac
         ) {
             Text(
                 text = course,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
+                fontSize = 22.sp
             )
             IconButton(onClick = {
                            SelectedCourses.addCourse(course)

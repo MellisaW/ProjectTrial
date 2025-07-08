@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">ProjectTrial</string>
+    <string name="app_name">Degree Finder</string>
+    <string name="app_title">🎓 Degree Finder</string>
+    <string name="welcome_message">Welcome! Discover the university course that suits your future and is your calling with Degree Finder.</string>
+    <string name="explore_button">Explore Courses</string>
 </resources>
