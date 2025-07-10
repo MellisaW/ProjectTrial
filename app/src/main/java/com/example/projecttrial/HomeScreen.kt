@@ -33,7 +33,6 @@ fun HomeScreen(navController: NavHostController) {
             contentScale = ContentScale.Crop
         )
 
-        // Content layout
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -72,12 +71,11 @@ fun HomeScreen(navController: NavHostController) {
                     )
             )
 
-            //Bottom Spacer with weight
+
             Spacer(modifier = Modifier.weight(1.5f))
 
-            // Button
             Button(
-                onClick = { navController.navigate("category") }, // Navigate to CategoryScreen on click
+                onClick = { navController.navigate("category") },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3F51B5)),
                 shape = RoundedCornerShape(50.dp), // Rounded button
                 modifier = Modifier

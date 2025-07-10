@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -28,6 +29,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import kotlinx.coroutines.launch
@@ -38,10 +40,25 @@ import com.example.projecttrial.HiddenGemsScreen
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        lifecycleScope.launch {
+            CourseDataStore.getCourses(applicationContext).collect { saved ->
+                SelectedCourses.restoreFromSet(saved)
+            }
+        }
+
         setContent {
             CourseExplorerApp()
         }
     }
+
+    override fun onStop() {
+        super.onStop()
+        lifecycleScope.launch {
+            CourseDataStore.saveCourses(applicationContext, SelectedCourses.asSet())
+        }
+    }
+
 }
 
 @Composable
@@ -65,13 +82,16 @@ fun CategoryScreen(navController: NavHostController) {
                 TopAppBar(
                     title = {
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                        Text(
-                            text = "Category Picker",
-                            fontSize = 26.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                            Text(
+                                text = "Category Picker",
+                                fontSize = 26.sp,
+                                fontWeight = FontWeight.Bold
+                            )
                     }
-                }
+                },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color(0xFFC8E6C9)
+                    )
                 )
             }
     ) { paddingValues ->
@@ -81,7 +101,7 @@ fun CategoryScreen(navController: NavHostController) {
                 .fillMaxSize()
         ) {
             Image(
-                painter = painterResource(id = R.drawable.picker),
+                painter = painterResource(id = R.drawable.pick),
                 contentDescription = "Background Image",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()

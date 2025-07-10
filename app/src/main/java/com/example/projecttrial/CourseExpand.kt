@@ -25,7 +25,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 
 @Composable
 fun CourseExpandableCard(course: String, onRemove: (() -> Unit)? = null) {
-    // state that remembers card is expanded
+
     var expanded by remember { mutableStateOf(false) }
     val details = Info.getDetails(course)
     val uriHandler = LocalUriHandler.current

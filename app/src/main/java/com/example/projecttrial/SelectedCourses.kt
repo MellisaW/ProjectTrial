@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -52,26 +53,25 @@ fun SelectedCoursesScreen(navController: NavHostController) {
                 .fillMaxSize()
         ) {
             Image(
-                painter = painterResource(id = R.drawable.selected), // <- your image here
+                painter = painterResource(id = R.drawable.selected),
                 contentDescription = "Background",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
         }
-
-        LazyColumn(
-            modifier = Modifier
-                .padding(padding)
-                .padding(16.dp)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(SelectedCourses.selectedList) { course ->
-                CourseExpandableCard(
-                    course = course,
-                    onRemove = {SelectedCourses.removeCourse(course)}
-                )
+            LazyColumn(
+                modifier = Modifier
+                    .padding(padding)
+                    .padding(16.dp)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                 items(SelectedCourses.selectedList) { course ->
+                        CourseExpandableCard(
+                            course = course,
+                            onRemove = { SelectedCourses.removeCourse(course) }
+                        )
+                    }
+                }
             }
         }
-    }
-}

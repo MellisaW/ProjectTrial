@@ -79,7 +79,7 @@ fun HiddenGemsScreen(navController: NavHostController) {
                 .fillMaxSize()
         ) {
             Image(
-                painter = painterResource(id = R.drawable.hiddengem), // <- your image here
+                painter = painterResource(id = R.drawable.hiddengem),
                 contentDescription = "Background",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()

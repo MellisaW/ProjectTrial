@@ -64,7 +64,7 @@ fun GeneralCoursesScreen(navController: NavHostController) {
                 .fillMaxSize()
         ) {
             Image(
-                painter = painterResource(id = R.drawable.general), // <- your image here
+                painter = painterResource(id = R.drawable.general),
                 contentDescription = "Background",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
